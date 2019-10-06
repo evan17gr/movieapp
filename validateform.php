@@ -1,8 +1,8 @@
 <?php
-
+$errors = array();
 if(isset($_POST["signup-button"])){
 
-    $errors = array();
+
 
     $dbServerName = "localhost";
     $dbUserName = "evan";
@@ -21,24 +21,20 @@ if(isset($_POST["signup-button"])){
     $userpassword2= mysqli_real_escape_string($conn,$_POST["password2"]);
 
     if(empty($username) || empty($useremail) || empty($userpassword) || empty($userpassword2) ){
-        array_push($errors,"Please complete all of the fields");
-        echo "empty fields";
+        header("Location: signup.php?error=emptyfields");
         exit();
     }
     else{
         if(!filter_var($useremail,FILTER_VALIDATE_EMAIL)){
-            array_push($errors,"Please enter a valid email");
-            echo "wrong email";
+            header("Location: signup.php?error=wrongemail&username=\".$username.\"");
             exit();
         }
         elseif (!preg_match("/[a-zA-Z0-9]/",$username)){
-            array_push($errors,"Please only use letters and numbers for your username");
-            echo "wrong username";
+            header("Location: signup.php?error=wrongusername&email=\".$useremail");
             exit();
         }
         elseif($userpassword !== $userpassword2){
-            array_push($errors,"The two passwords don't match");
-            echo "passwords dont match";
+            header("Location: signup.php?error=passwordsdontmatch&username=\".$username.\"&email=\".$useremail") ;
             exit();
         }
         else{
@@ -49,24 +45,27 @@ if(isset($_POST["signup-button"])){
             $result = mysqli_stmt_get_result($stmt);
             mysqli_stmt_close($stmt);
             if(mysqli_num_rows($result) >0){
-                array_push($errors,"A user with that email already exists");
-                echo "username exists";
-
-
+                header("Location: signup.php?error=userexists&username=\".$username.\"&email=\".$useremail");
+                exit();
             }
             else{
-                $userpassword = md5($userpassword);
+                $userpassword = password_hash($userpassword,PASSWORD_DEFAULT);
                 $stmt =mysqli_stmt_init($conn);
                 mysqli_stmt_prepare($stmt,"INSERT INTO user (user_name,user_email,user_password) VALUES (?,?,?)");
                 mysqli_stmt_bind_param($stmt,"sss",$username,$useremail,$userpassword);
                 mysqli_stmt_execute($stmt);
                 mysqli_stmt_close($stmt);
-                echo "You have now signed up!";
-
+                header("Location: signup.php?error=noerror");
+                exit();
             }
         }
 
     }
+    mysqli_close($conn);
+
 
 }
-
+else{
+    header("Location: signup.php");
+    exit();
+}

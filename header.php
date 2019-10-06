@@ -6,12 +6,19 @@
         body{
             background-color: black;
             margin: 0;
+            padding: 0;
             font-family: sans-serif;
+            background-image: url("https://wallpapercave.com/wp/RKyfEEh.jpg");
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            opacity: 1;
+            width: 100%;
+            height: 100%;
+            min-height: 100%;
+            display: table;
         }
 
-        #headercontainer{
-            padding: 2px;
-        }
+
 
         #logo{
             float-left;
@@ -29,6 +36,7 @@
 
         #header{
             background-color: #55d6aa;
+
         }
 
         #header::after{
@@ -91,7 +99,7 @@
 </head>
 <body>
     <header id="header">
-        <div id="container">
+        <div id="headercontainer">
             <img id="logo" src="https://image.flaticon.com/icons/png/512/83/83519.png">
             <h1 id="logoname">Cinevid</h1>
             <nav id="headernav">
