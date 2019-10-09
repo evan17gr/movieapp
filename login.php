@@ -59,43 +59,48 @@ require "header.php";
         color: rgb(85, 214, 170);
         float: right;
         position: relative;
-        top: -25px;
+        top: -28px;
         left: -45px;
         font-size: 19px;
     }
 </style>
-<div class="regform">
-    <h1>Log in</h1>
-    <form action="validateform.php" method="post">
-        <div class="inputhandle">
-            <label for="emailaddress">Email</label>
-            <input type="text" id="emailaddress" name="email">
-        </div>
-        <div class="inputhandle">
-            <label for="password1">Password</label>
-            <input type="password" name="password" id="password1">
-        </div>
-        <div id="loginbutton">
-            <div id="submbut">
-                <input type="submit" name="login-button" value="Login">
-            </div>
-            <div>
-                <a id="changepass" href="sendemail.php">Reset your password?</a>
-            </div>
-        </div>
-    </form>
-</div>
+    <div class="regform">
+    <?php
+    if (isset($_SESSION["userid"])){
+        echo '
+            <h1>Log out</h1>
+            <form action="logout.php" method="post">
+                <div class="inputhandle">
+                    <input type="submit" id="login-button" value="Logout">
+                </div>
+            </form>';
+    }
+    else{
+        echo '
+            <h1>Log in</h1>
+            <form action="loginhandle.php" method="post">
+                <div class="inputhandle">
+                    <label for="emailaddress">Email address</label>
+                    <input type="text" id="email" name="email1">
+                </div>
+                <div class="inputhandle">
+                    <label for="password1">Password</label>
+                    <input type="password" name="password1" id="password1">
+                </div>
+                <div id="loginbutton">
+                    <div id="submbut">
+                        <input type="submit" name="login-button" value="Login">
+                    </div>
+                    <div>
+                        <a id="changepass" href="#">Reset password?</a>
+                    </div>
+                </div>
+            </form>
+        ';
+    }
+    ?>
+    </div>
 
-
-<?php
-if (isset($_POST["login-button"])){
-
-}
-else{
-    header("Location: signup.php");
-    exit();
-}
-?>
 <?php
 require "footer.php";
 ?>
