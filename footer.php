@@ -92,10 +92,21 @@
             <nav id="footerrnav">
                 <ul>
                     <li><img id="logo2" src="https://image.flaticon.com/icons/png/512/83/83519.png"></li>
-                    <li><a href="#">Home</a></li>
+                    <li><a href="home.php">Home</a></li>
                     <li><a href="#">Movies</a></li>
-                    <li><a href="#">Sign up</a></li>
-                    <li><a href="#">Log In</a></li>
+                    <li><a href="signup.php">Sign up</a></li>
+                    <?php
+                    if (isset($_SESSION["userid"])){
+                        echo "
+                            <li><a href=\"login.php\">Log out</a></li>
+                        ";
+                    }
+                    else{
+                        echo "
+                            <li><a href=\"login.php\">Log in</a></li>
+                        ";
+                    }
+                    ?>
                     <li><a href="#">Account</a></li>
                 </ul>
             </nav>
